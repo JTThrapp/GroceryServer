@@ -7,10 +7,10 @@ const express = require('express');
 const app = express();
 
 //! CONTROLLERS
-const user = require('./controllers/usercontroller'); 
+const user = require('./controllers/userController'); 
 
 //! DATABASE
-const sequelize = require('./db'); 
+const sequelize = require('./db');
 sequelize.sync();
 app.use(express.json());  
 app.use(require('./middleware/headers'));
@@ -20,4 +20,4 @@ app.use('/auth', user);
 app.use(require('./middleware/validate-session'));
 
 //! LISTENING 
-app.listen(process.env.PORT, () => console.log(`App is listening on ${process.env.PORT}`))
+app.listen(process.env.PORT, () => console.log(`App is listening on ${process.env.PORT}`));
