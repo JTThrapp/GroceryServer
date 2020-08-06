@@ -1,25 +1,24 @@
- //ENV
+//! ENV
 require('dotenv').config();
 
-// Express
+//! EXPRESS
 const express = require('express');
 const app = express();
 
-// // Controllers
+//! CONTROLLERS
 const item = require('./controllers/itemcontroller');
+const user = require('./controllers/userController'); 
 
-
-// //Database
+//! DATABASE
 const sequelize = require('./db');
 sequelize.sync();
-app.use(express.json())
-// app.use(require('./middleware/headers'));
+app.use(express.json());  
+app.use(require('./middleware/headers'));
 
-// // Routes
-// // app.use('/auth', user)
+//! ROUTES
+app.use('/auth', user);
 app.use(require('./middleware/validate-session'));
 app.use('/item', item);
 
-app.listen(process.env.PORT, function(){
-    console.log(`App listening on port ${process.env.PORT}`);
-})
+//! LISTENING 
+app.listen(process.env.PORT, () => console.log(`App is listening on ${process.env.PORT}`));
