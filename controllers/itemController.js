@@ -6,10 +6,12 @@ const validateSession = require('../middleware/validate-session');
 
 
 //GET ALL MY ITEMS
-// Gives "unhandled rejection" but still works
 
     router.get('/', validateSession, (req, res) => {
-        Item.findAll()
+        let userid = req.user.id
+        Item.findAll({
+            where: { owner: userid }
+        })
             .then(item => res.status(200).json(item))
             .catch(err => res.status(500).json({ error: err}))
     })
@@ -21,7 +23,8 @@ const validateSession = require('../middleware/validate-session');
 router.post('/', validateSession, (req, res) =>{
     const itemFromRequest = {
         nameOfItem: req.body.nameOfItem,
-        quantity: req.body.quantity
+        quantity: req.body.quantity,
+        owner: req.user.id
     }
     Item.create(itemFromRequest)
         .then(item => res.status(200).json(item))
@@ -30,7 +33,6 @@ router.post('/', validateSession, (req, res) =>{
 
 //UPDATE AN EXISTING POST
 // only needed if changing quantity
-//works, but always returns [1] instead of returning the updated item like {"nameOfItem": "banana", "quantity": 2}
 
 router.put('/:id', validateSession, (req, res) => {
     Item.update(req.body, { where: { id: req.params.id }})  
