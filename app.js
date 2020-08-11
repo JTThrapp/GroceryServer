@@ -6,7 +6,7 @@ const express = require('express');
 const app = express();
 
 //! CONTROLLERS
-const item = require('./controllers/itemcontroller');
+const item = require('./controllers/itemController');
 const user = require('./controllers/userController'); 
 
 //! DATABASE
